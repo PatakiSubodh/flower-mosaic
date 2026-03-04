@@ -1,43 +1,47 @@
-// import UploadPage from "./api/upload/page";
-
-// export default function Home() {
-//   return (
-//     <main className="min-h-screen bg-background p-8">
-//       {/* <h1 className="text-4xl font-bold">Flower Mosaic Builder</h1>
-//       <p>375</p> */}
-//       <UploadPage />
-//     </main>
-//   )
-// }
-
 "use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import PixelPig from "@/components/walk/PixelPig";
 
 export default function Home() {
   const [preview, setPreview] = useState<string | null>(null);
   const [finalUrl, setFinalUrl] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [showSpy, setShowSpy] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const [btnStyle, setBtnStyle] = useState<React.CSSProperties>({});
 
   async function handleUpload(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (clickCount < 0) {           // later change it to as many you want
+      setClickCount((prev) => prev + 1);
+      setBtnStyle({
+        position: "fixed",
+        top: `${Math.random() * 80 + 10}vh`,
+        left: `${Math.random() * 80 + 10}vw`,
+        zIndex: 100,
+      });
+      return;
+    }
+    setBtnStyle({});
     setLoading(true);
+    setShowSpy(false);
 
-    const formData = new FormData(e.currentTarget);
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      body: formData,
-    });
+    // const formData = new FormData(e.currentTarget);
+    // const res = await fetch("/api/generate", {
+    //   method: "POST",
+    //   body: formData,
+    // });
 
-    const data = await res.json();
+    // const data = await res.json();
 
-    setPreview(data.previewUrl);
+    // setPreview(data.previewUrl);
 
-    pollStatus(data.jobId);
+    // pollStatus(data.jobId);
   }
 
   async function pollStatus(jobId: string) {
@@ -56,14 +60,26 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <Card className="p-6 w-full max-w-lg space-y-4">
-        <form onSubmit={handleUpload} className="space-y-4">
-          <input type="file" name="image" required />
+    <div className="bg-black min-h-screen flex items-center justify-center p-6">
+      <Card className="p-6 w-full max-w-lg">
+        {/* <h1 className="text-xl font-bold m-0 p-0">
+          {loading ? "I !hate you" : "Yeh kya chutiyp hai ab"}
+        </h1>
+        <form onSubmit={handleUpload} className="flex justify-left align-left flex-col gap-2" >
+          <input type="file" name="image" required className="border px-1 m-0 rounded h-full " onChange={() => setShowSpy(true)} />
           <Button type="submit" disabled={loading}>
-            {loading ? "Generating..." : "Generate Mosaic"}
+            {loading ? "Mera sunnti kyu nai kabhi 😒" : "Kya karna hai janna ke 😂"}
+          </Button>
+        </form> */}
+        <h1 className="text-xl font-bold m-0 p-0">Flower Mosaic Builder</h1>
+        <form onSubmit={handleUpload} className="flex justify-left align-left flex-col gap-2" >
+          <input type="file" name="image" required className="border px-1 m-0 rounded h-full " onChange={() => setShowSpy(true)} />
+          <Button type="submit" disabled={loading} style={btnStyle}>
+            {loading ? "Generating..." : ["Generate Mosaic", "Are you sure?", "Really sure?", "Positive?", "Last chance!", "Confirm?"][clickCount]}
           </Button>
         </form>
+
+        <PixelPig />
 
         {preview && (
           <>
@@ -93,6 +109,14 @@ export default function Home() {
           </>
         )}
       </Card>
+
+      <img
+        src="/img/pato.png"
+        alt="spy"
+        className={`fixed z-50 -bottom-3 right-0 w-40 transition-transform duration-700 ease-in-out ${
+          showSpy ? "translate-x-0 translate-y-0" : "translate-x-full translate-y-0"
+        }`}
+      />
     </div>
   );
 }
