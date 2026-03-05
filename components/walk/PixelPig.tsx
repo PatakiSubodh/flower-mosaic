@@ -181,16 +181,16 @@ useFrame((state) => {
 
 export default function PixelPig() {
   return (
-    <div className="fixed bottom-4 left-0 w-60 h-60 pointer-events-none z-50 origin-top animate-[walkLeft_15s_linear_infinite]">
+    <div className="fixed bottom-4 left-0 w-60 h-60 pointer-events-none z-50 origin-top" style={{ animation: 'walkLeft 15s linear infinite' }}>
       {/* Global CSS for the horizontal movement across the screen */}
-<style>{`
-        @keyframes walkLeft {
-          0% { transform: translateX(100vw); }
-          25% { transform: translateX(60vw); }
-          35% { transform: translateX(60vw); }
-          100% { transform: translateX(-200px); }
-        }
-      `}</style>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes walkLeft {
+          0% { transform: translateX(100vw); }
+          25% { transform: translateX(60vw); }
+          35% { transform: translateX(60vw); }
+          100% { transform: translateX(-200px); }
+        }
+      `}} />
 
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 2, 5], fov: 40 }}>
