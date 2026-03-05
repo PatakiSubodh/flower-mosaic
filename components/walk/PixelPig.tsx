@@ -194,11 +194,11 @@ export default function PixelPig() {
       `}} />
 
       {/* dont remove this msg section */}
-      <div className="mb-2 text-white text-xs sm:text-sm font-mono px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+      {/* <div className="mb-2 text-white text-xs sm:text-sm font-mono px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]">
         leave me alone idiot
-      </div>
+      </div> */}
       {/* 3D Canvas */}
-      <Canvas camera={{ position: [0, 2.5, 5.5], fov: 40 }}>
+      <Canvas camera={{ position: [0, 2, 5.6], fov: 40 }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[50, 15, 2]} intensity={1} />
         <PigModel />

@@ -79,7 +79,7 @@ export default function Home() {
           </Button>
         </form>
 
-        <PixelPig />
+        {loading && <PixelPig />}
 
         {preview && (
           <>
