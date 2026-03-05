@@ -31,17 +31,17 @@ export default function Home() {
     setLoading(true);
     setShowSpy(false);
 
-    // const formData = new FormData(e.currentTarget);
-    // const res = await fetch("/api/generate", {
-    //   method: "POST",
-    //   body: formData,
-    // });
+    const formData = new FormData(e.currentTarget);
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      body: formData,
+    });
 
-    // const data = await res.json();
+    const data = await res.json();
 
-    // setPreview(data.previewUrl);
+    setPreview(data.previewUrl);
 
-    // pollStatus(data.jobId);
+    pollStatus(data.jobId);
   }
 
   async function pollStatus(jobId: string) {
@@ -79,7 +79,7 @@ export default function Home() {
           </Button>
         </form>
 
-        {loading && <PixelPig />}
+        {loading && <PixelPig progress={progress} />}
 
         {preview && (
           <>

@@ -180,7 +180,7 @@ function PigModel() {
   );
 }
 
-export default function PixelPig() {
+export default function PixelPig({progress} : {progress : number}) {
   return (
     <div className="fixed bottom-4 left-0 w-60 h-60 pointer-events-none z-50 origin-top" style={{ animation: 'walkLeft 15s linear infinite' }}>
       {/* Global CSS for the horizontal movement across the screen */}
