@@ -13,16 +13,16 @@ const STOP_END = 0.35;
 function Leg({ position, offset }: { position: [number, number, number], offset: number }) {
   const legRef = useRef<Group>(null);
 
-useFrame((state) => {
-    if (legRef.current) {
-      const t = state.clock.elapsedTime % 15;
-      if (t > 3.75 && t < 5.25) {
-        legRef.current.rotation.z = 0;
-      } else {
-        legRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 8 + offset) * 0.6;
-      }
-    }
-  });
+  useFrame((state) => {
+    if (legRef.current) {
+      const t = state.clock.elapsedTime % 15;
+      if (t > 3.75 && t < 5.25) {
+        legRef.current.rotation.z = 0;
+      } else {
+        legRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 8 + offset) * 0.6;
+      }
+    }
+  });
 
   return (
     <group position={position} ref={legRef}>
@@ -45,22 +45,23 @@ useFrame((state) => {
 function PigModel() {
   const bodyRef = useRef<Group>(null);
 
-useFrame((state) => {
-    if (bodyRef.current) {
-      const t = state.clock.elapsedTime % 15;
-      if (t > 3.75 && t < 5.25) {
-        bodyRef.current.rotation.set(-0.1, Math.PI * -0.6, 0);
-        bodyRef.current.position.y = 0;
-      } else {
-        bodyRef.current.rotation.set(0, Math.PI * -0.8, 0);
-        bodyRef.current.position.y = Math.abs(Math.sin(state.clock.elapsedTime * 8)) * 0.1;
-      }
-    }
-  });
+  useFrame((state) => {
+    if (bodyRef.current) {
+      const t = state.clock.elapsedTime % 15;
+      if (t > 3.75 && t < 5.25) {
+        bodyRef.current.rotation.set(-0.1, Math.PI * -0.6, 0);
+        bodyRef.current.position.y = 0;
+      } else {
+        bodyRef.current.rotation.set(0, Math.PI * -0.8, 0);
+        bodyRef.current.position.y = Math.abs(Math.sin(state.clock.elapsedTime * 8)) * 0.1;
+      }
+    }
+  });
 
   return (
     // Rotated to face left and slightly towards the screen
     <group ref={bodyRef} rotation={[0, Math.PI * -0.8, 0]} scale={1.5}>
+      
       {/* --- BODY --- */}
       <mesh position={[0, 0.5, 0]}>
         <boxGeometry args={[1.2, 0.9, 1.0]} />
@@ -101,7 +102,7 @@ useFrame((state) => {
         </mesh>
       </group>
 
-      {/* --- EARS ---
+      {/* --- EARS --- */}
       {/* Left Ear */}
       <group position={[0.6, 1.1, 0.35]} rotation={[0, 0, -0.2]}>
         <mesh position={[0, 0, 0]}>
@@ -186,14 +187,18 @@ export default function PixelPig() {
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes walkLeft {
           0% { transform: translateX(100vw); }
-          25% { transform: translateX(60vw); }
-          35% { transform: translateX(60vw); }
+          25% { transform: translateX(calc(60vw - 50px)); }
+          35% { transform: translateX(calc(60vw - 50px)); }
           100% { transform: translateX(-200px); }
         }
       `}} />
 
+      {/* dont remove this msg section */}
+      <div className="mb-2 text-white text-xs sm:text-sm font-mono px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+        leave me alone idiot
+      </div>
       {/* 3D Canvas */}
-      <Canvas camera={{ position: [0, 2, 5], fov: 40 }}>
+      <Canvas camera={{ position: [0, 2.5, 5.5], fov: 40 }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[50, 15, 2]} intensity={1} />
         <PigModel />
