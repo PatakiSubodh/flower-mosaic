@@ -1,13 +1,24 @@
 // components/PixelPig.tsx
-'use client';
+"use client";
 
-import { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Group } from 'three';
+import { useEffect, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Group } from "three";
 
 const WALK_DURATION = 15;
 const STOP_START = 0.25;
 const STOP_END = 0.35;
+
+const insults = [
+  "leave me alone idiot",
+  "stop clicking things",
+  "i was sleeping",
+  "ugh humans...",
+  "are we done yet",
+  "why am i here",
+  "you again??"
+];
+
 
 // Leg component with top-anchored rotation
 function Leg({ position, offset }: { position: [number, number, number], offset: number }) {
@@ -180,10 +191,45 @@ function PigModel() {
   );
 }
 
-export default function PixelPig({progress} : {progress : number}) {
+export default function PixelPig() {
+
+const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
+  const prevStopped = useRef(false);
+
+  useEffect(() => {
+    let frame: number;
+    const start = performance.now();
+
+    const loop = () => {
+      const elapsed = (performance.now() - start) / 1000;
+      const cycle = (elapsed % WALK_DURATION) / WALK_DURATION;
+
+      setProgress(cycle);
+      frame = requestAnimationFrame(loop);
+    };
+
+    loop();
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const isStopped = progress >= STOP_START && progress <= STOP_END;
+
+  useEffect(() => {
+    if (isStopped && !prevStopped.current) {
+      const random = insults[Math.floor(Math.random() * insults.length)];
+      setMessage(random);
+    }
+
+    prevStopped.current = isStopped;
+  }, [isStopped]);
+
   return (
-    <div className="fixed bottom-4 left-0 w-60 h-60 pointer-events-none z-50 origin-top" style={{ animation: 'walkLeft 15s linear infinite' }}>
-      {/* Global CSS for the horizontal movement across the screen */}
+    <div
+      className="fixed -bottom-10 left-0 w-60 h-60 pointer-events-none z-50 origin-top"
+      style={{ animation: 'walkLeft 15s linear infinite' }}
+    >
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes walkLeft {
           0% { transform: translateX(100vw); }
@@ -193,11 +239,15 @@ export default function PixelPig({progress} : {progress : number}) {
         }
       `}} />
 
-      {/* dont remove this msg section */}
-      {/* <div className="mb-2 text-white text-xs sm:text-sm font-mono px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-        leave me alone idiot
-      </div> */}
-      {/* 3D Canvas */}
+      {/* Speech bubble */}
+      <div
+        className={`mb-2 text-white text-xs sm:text-sm font-mono px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-opacity duration-300 ${
+          isStopped ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        {message}
+      </div>
+
       <Canvas camera={{ position: [0, 2, 5.6], fov: 40 }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[50, 15, 2]} intensity={1} />
