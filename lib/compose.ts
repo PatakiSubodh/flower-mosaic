@@ -13,6 +13,7 @@ export async function composeMosaicRowByRow(
 ) {
   const { tileSize, outputPath, onProgress } = options;
 
+  const tileCache = new Map<string, Buffer>();
   const rows: Buffer[] = [];
   const totalRows = matchGrid.length;
 
@@ -24,11 +25,13 @@ export async function composeMosaicRowByRow(
 
     const compositeInputs = await Promise.all(
     row.map(async (tile: any, x: number) => {
-        const resized = await sharp(
-        path.join(process.cwd(), "public", tile.path)
-        )
-        .resize(tileSize, tileSize)
-        .toBuffer();
+        const tilePath = path.join(process.cwd(), "public", tile.path);
+        let resized = tileCache.get(tilePath);
+        
+        if (!resized) {
+          resized = await sharp(tilePath).resize(tileSize, tileSize).toBuffer();
+          tileCache.set(tilePath, resized);
+        }
 
         return {
         input: resized,

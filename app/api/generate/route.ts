@@ -12,7 +12,7 @@ import { LabColor } from "@/lib/types";
 
 export const runtime = "nodejs";
 
-const GRID_SIZE = 70;
+const GRID_SIZE = 150;
 
 async function generateLabGrid(buffer: Buffer): Promise<LabColor[][]> {
   const { data, info } = await sharp(buffer)
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     // 🔹 Generate final in background with progress
     (async () => {
       await composeMosaicRowByRow(matchGrid, {
-        tileSize: 60,
+        tileSize: 108,
         outputPath: finalPath,
         onProgress: (percent) => {
           jobs[id].progress = percent;

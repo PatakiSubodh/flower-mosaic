@@ -10,7 +10,7 @@ const OUTPUT_DIR = path.join(process.cwd(), "public/tiles");
 const DATA_DIR = path.join(process.cwd(), "data");
 const OUTPUT_JSON = path.join(DATA_DIR, "flower-metadata.json");
 
-const TILE_SIZE = 350;
+const TILE_SIZE = 600;
 
 interface FlowerMeta {
   id: number;
@@ -35,7 +35,7 @@ async function preprocess() {
     const ext = path.extname(file).toLowerCase();
     if (![".jpg", ".jpeg", ".png", ".webp"].includes(ext)) continue;
 
-    console.log(`Processing: ${file}`);
+    console.log(`Processing[${id}]: ${file}`);
 
     const inputPath = path.join(INPUT_DIR, file);
     const outputPath = path.join(OUTPUT_DIR, file);
@@ -51,7 +51,7 @@ async function preprocess() {
 
     const processed = image
       .extract({ left, top, width: size, height: size })
-      .resize(TILE_SIZE, TILE_SIZE);
+      // .resize(TILE_SIZE, TILE_SIZE);
 
     await processed.toFile(outputPath);
 
