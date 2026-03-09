@@ -96,11 +96,12 @@ export default function UploadSelfie() {
 
     const retakePhoto = () => {
         setPhoto(null);
+        setShowSpy(false);
         startCamera(true);
     };
 
     async function handleUpload() {
-        if (clickCount < 5) {
+        if (clickCount < 0) {
             setClickCount((prev) => prev + 1);
             setBtnStyle({
                 position: "fixed",
@@ -162,7 +163,7 @@ export default function UploadSelfie() {
 
     const stopCamera = () => {
         startCamera(false);
-        router.push("/"); // Navigate back to base page
+        router.push("/"); 
     };
 
     useEffect(() => {
@@ -188,11 +189,11 @@ export default function UploadSelfie() {
                         ref={videoRef}
                         autoPlay
                         playsInline
-                        className="rounded-xl w-80"
+                        className="rounded-xl w-full"
                     />
 
                     {isCameraActive && (
-                        <div className="flex gap-4 w-80 justify-center">
+                        <div className="flex gap-4 justify-center">
                             <Button
                                 onClick={takePhoto}
                                 aria-label="Take photo"
@@ -215,7 +216,7 @@ export default function UploadSelfie() {
                         <Button
                             onClick={() => router.push("/")}
                             aria-label="Go back"
-                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors w-full"
                         >
                             Go Back
                         </Button>
@@ -225,8 +226,8 @@ export default function UploadSelfie() {
 
             {photo && !preview && (
                 <>
-                    <img src={photo} alt="Captured selfie" className="rounded-xl w-80 shadow-lg" />
-                    <div className="flex gap-4 w-80 justify-center">
+                    <img src={photo} alt="Captured selfie" className="rounded-xl w-full shadow-lg" />
+                    <div className="flex gap-4 justify-center">
                         <Button
                             onClick={retakePhoto}
                             aria-label="Retake photo"

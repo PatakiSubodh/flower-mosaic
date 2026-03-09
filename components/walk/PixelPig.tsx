@@ -241,7 +241,7 @@ const [progress, setProgress] = useState(0);
 
       {/* Speech bubble */}
       <div
-        className={`mb-2 text-white text-xs sm:text-sm font-mono px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-opacity duration-300 ${
+        className={`w-fit text-xs sm:text-sm font-mono px-3 py-1 rounded border border-black bg-white transition-opacity duration-300 ${
           isStopped ? "opacity-100" : "opacity-0"
         }`}
       >
