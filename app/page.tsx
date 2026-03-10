@@ -26,6 +26,14 @@ export default function Home() {
           Take Selfie
         </button>
 
+        <button
+          onClick={() => router.push("/mocktail")}
+          className="flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-xl hover:bg-gray-200"
+        >
+          <Upload size={20} />
+          Mocktail
+        </button>
+
       </div>
     </div>
   );
