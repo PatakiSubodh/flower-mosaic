@@ -4,8 +4,8 @@ import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import PixelPig from "@/components/walk/PixelPig";
+import MosaicResult from "@/components/upload/MosaicResult";
+import { useMosaicUpload } from "@/hooks/useMosaicUpload";
 
 export default function UploadSelfie() {
     const router = useRouter();
@@ -13,16 +13,16 @@ export default function UploadSelfie() {
     const streamRef = useRef<MediaStream | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [photo, setPhoto] = useState<string | null>(null);
-    const [preview, setPreview] = useState<string | null>(null);
-    const [finalUrl, setFinalUrl] = useState<string | null>(null);
-    const [progress, setProgress] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const [showSpy, setShowSpy] = useState(false);
-    const [clickCount, setClickCount] = useState(0);
-    const [btnStyle, setBtnStyle] = useState<React.CSSProperties>({});
     const [isCameraActive, setIsCameraActive] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true); // Start as loading
+    const [isLoadingCamera, setIsLoadingCamera] = useState(true);
+
+    const {
+        preview, finalUrl, progress, loading, showSpy, setShowSpy,
+        clickCount, btnStyle, handleUploadClick, processUploadResponse
+    } = useMosaicUpload();
+
+    const buttonLabels = ["Generate Mosaic", "Are you sure?", "Really sure?", "Positive?", "Last chance!", "Confirm?"];
 
     const stopStream = () => {
         if (streamRef.current) {
@@ -44,14 +44,14 @@ export default function UploadSelfie() {
 
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             setError("Camera access not supported in this browser.");
-            setIsLoading(false);
+            setIsLoadingCamera(false);
             return;
         }
 
-        setIsLoading(true);
+        setIsLoadingCamera(true);
         setError(null);
         try {
-            stopStream(); // Ensure any existing stream is stopped
+            stopStream();
 
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: { facingMode: "user" },
@@ -70,27 +70,24 @@ export default function UploadSelfie() {
             setError("Failed to access camera. Please check permissions.");
             console.error(err);
         } finally {
-            setIsLoading(false);
+            setIsLoadingCamera(false);
         }
     };
 
     const takePhoto = () => {
         const video = videoRef.current;
         const canvas = canvasRef.current;
-
         if (!video || !canvas) return;
 
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
         ctx.drawImage(video, 0, 0);
-
         const imageData = canvas.toDataURL("image/png");
         setPhoto(imageData);
-        startCamera(false); // Stop stream after capture
+        startCamera(false);
         setShowSpy(true);
     };
 
@@ -101,22 +98,9 @@ export default function UploadSelfie() {
     };
 
     async function handleUpload() {
-        if (clickCount < 0) {
-            setClickCount((prev) => prev + 1);
-            setBtnStyle({
-                position: "fixed",
-                top: `${Math.random() * 80 + 10}vh`,
-                right: `${Math.random() * 80 + 10}vw`,
-                zIndex: 100,
-            });
-            return;
-        }
-        setBtnStyle({});
-        setLoading(true);
-        setShowSpy(false);
+        if (!handleUploadClick()) return;
 
         try {
-            // Convert base64 to Blob for efficient upload
             if (!photo) return;
             const byteString = atob(photo.split(",")[1]);
             const ab = new ArrayBuffer(byteString.length);
@@ -125,7 +109,6 @@ export default function UploadSelfie() {
                 ia[i] = byteString.charCodeAt(i);
             }
             const blob = new Blob([ab], { type: "image/png" });
-
             const formData = new FormData();
             formData.append("image", blob, "selfie.png");
 
@@ -133,49 +116,27 @@ export default function UploadSelfie() {
                 method: "POST",
                 body: formData,
             });
-
-            const data = await res.json();
-
-            setPreview(data.previewUrl);
-
-            pollStatus(data.jobId);
+            await processUploadResponse(res);
         } catch (err) {
             setError("Upload error. Check your connection.");
             console.error(err);
-            setLoading(false);
+            // Reset loading state on error so user can try again
         }
-    }
-
-    async function pollStatus(jobId: string) {
-        const interval = setInterval(async () => {
-            const res = await fetch(`/api/status?jobId=${jobId}`);
-            const data = await res.json();
-
-            setProgress(data.progress);
-
-            if (data.done) {
-                clearInterval(interval);
-                setFinalUrl(data.finalUrl);
-                setLoading(false);
-            }
-        }, 1000);
     }
 
     const stopCamera = () => {
         startCamera(false);
-        router.push("/"); 
+        router.push("/");
     };
 
     useEffect(() => {
         startCamera(true);
-
         return () => {
             stopStream();
         };
     }, []);
 
     return (
-        <>
         <Card className="p-6 w-full max-w-lg gap-0 space-y-3">
             <h1 className="text-xl font-bold m-0 p-0">Flower Mosaic Builder</h1>
 
@@ -183,8 +144,7 @@ export default function UploadSelfie() {
 
             {!photo && (
                 <>
-                    {isLoading && <p>Starting camera...</p>}
-
+                    {isLoadingCamera && <p>Starting camera...</p>}
                     <video
                         ref={videoRef}
                         autoPlay
@@ -201,7 +161,6 @@ export default function UploadSelfie() {
                             >
                                 Click
                             </Button>
-
                             <Button
                                 onClick={stopCamera}
                                 aria-label="Stop camera and go back"
@@ -212,7 +171,7 @@ export default function UploadSelfie() {
                         </div>
                     )}
 
-                    {!isCameraActive && !isLoading && (
+                    {!isCameraActive && !isLoadingCamera && (
                         <Button
                             onClick={() => router.push("/")}
                             aria-label="Go back"
@@ -235,7 +194,6 @@ export default function UploadSelfie() {
                         >
                             Retake
                         </Button>
-
                         <Button
                             onClick={handleUpload}
                             disabled={loading}
@@ -243,52 +201,21 @@ export default function UploadSelfie() {
                             aria-label="Submit photo"
                             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors flex-1 disabled:opacity-50"
                         >
-                            {loading ? "Generating..." : ["Generate Mosaic", "Are you sure?", "Really sure?", "Positive?", "Last chance!", "Confirm?"][clickCount]}
+                            {loading ? "Generating..." : buttonLabels[Math.min(clickCount, buttonLabels.length - 1)]}
                         </Button>
                     </div>
                 </>
             )}
 
-            {loading && !preview && <PixelPig />}
-
-            {preview && (
-            <div className="space-y-2 mt-4">
-                <h2 className="font-semibold">Preview</h2>
-                <img src={preview} alt="Mosaic Preview" className="w-full rounded border border-zinc-800" />
-
-                {!finalUrl && (
-                <div className="space-y-2 mt-4">
-                    <div className="flex justify-between text-sm">
-                    <p>Generating high resolution...</p>
-                    <p>{Math.round(progress)}%</p>
-                    </div>
-                    <Progress value={progress} className="h-2" />
-                </div>
-                )}
-            </div>
-            )}
-
-            {finalUrl && (
-            <div className="space-y-3 mt-6 pt-4 border-t border-zinc-800">
-                <h2 className="font-semibold text-green-700">Generation Complete!</h2>
-                <Button asChild className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                <a href={finalUrl} download>
-                    Download High Resolution
-                </a>
-                </Button>
-            </div>
-            )}
+            <MosaicResult 
+                loading={loading} 
+                preview={preview} 
+                progress={progress} 
+                finalUrl={finalUrl} 
+                showSpy={showSpy} 
+            />
 
             <canvas ref={canvasRef} className="hidden" />
         </Card>
-
-        <img
-            src="/img/pato.png"
-            alt="spy"
-            className={`fixed z-50 -bottom-3 right-0 w-40 transition-transform duration-700 ease-in-out ${
-            showSpy ? "translate-x-0 translate-y-0" : "translate-x-full translate-y-0"
-            }`}
-        />
-        </>
     );
 }

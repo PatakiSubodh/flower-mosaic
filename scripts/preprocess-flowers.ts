@@ -11,6 +11,10 @@ const DATA_DIR = path.join(process.cwd(), "data");
 const OUTPUT_JSON = path.join(DATA_DIR, "flower-metadata.json");
 
 const TILE_SIZE = 600;
+const CONCURRENCY = 10;
+
+sharp.concurrency(0);
+sharp.cache(false);
 
 interface FlowerMeta {
   id: number;
@@ -25,17 +29,27 @@ async function preprocess() {
   if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-  const files = fs.readdirSync(INPUT_DIR);
+  const allItems = fs.readdirSync(INPUT_DIR);
+
+  const allFiles = allItems.filter((item) =>
+    fs.statSync(path.join(INPUT_DIR, item)).isFile()
+  );
+
+  const files = allFiles.filter((f) =>
+    [".jpg", ".jpeg", ".png", ".webp"].includes(path.extname(f).toLowerCase())
+  );
+
+  const total = files.length;
+
+  console.log("Total images:", total);
 
   const metadata: FlowerMeta[] = [];
-
   let id = 1;
 
-  for (const file of files) {
-    const ext = path.extname(file).toLowerCase();
-    if (![".jpg", ".jpeg", ".png", ".webp"].includes(ext)) continue;
+  async function processFile(file: string) {
+    const currentId = id++;
 
-    console.log(`Processing[${id}]: ${file}`);
+    console.log(`Processing [${currentId}/${total}]: ${file}`);
 
     const inputPath = path.join(INPUT_DIR, file);
     const outputPath = path.join(OUTPUT_DIR, file);
@@ -43,15 +57,18 @@ async function preprocess() {
     const image = sharp(inputPath);
     const { width, height } = await image.metadata();
 
-    if (!width || !height) continue;
+    if (!width || !height) return;
 
     const size = Math.min(width, height);
     const left = Math.floor((width - size) / 2);
     const top = Math.floor((height - size) / 2);
 
-    const processed = image
-      .extract({ left, top, width: size, height: size })
-      // .resize(TILE_SIZE, TILE_SIZE);
+    const processed = image.extract({
+      left,
+      top,
+      width: size,
+      height: size,
+    });
 
     await processed.toFile(outputPath);
 
@@ -59,9 +76,9 @@ async function preprocess() {
       .raw()
       .toBuffer({ resolveWithObject: true });
 
-    let r = 0,
-      g = 0,
-      b = 0;
+    let r = 0;
+    let g = 0;
+    let b = 0;
 
     for (let i = 0; i < data.length; i += info.channels) {
       r += data[i];
@@ -71,23 +88,35 @@ async function preprocess() {
 
     const pixelCount = info.width * info.height;
 
-    r = r / pixelCount;
-    g = g / pixelCount;
-    b = b / pixelCount;
+    r /= pixelCount;
+    g /= pixelCount;
+    b /= pixelCount;
 
     const [L, aVal, bVal] = chroma(r, g, b).lab();
 
     metadata.push({
-      id,
+      id: currentId,
       filename: file,
       path: `/tiles/${file}`,
       L,
       a: aVal,
       b: bVal,
     });
-
-    id++;
   }
+
+  const queue = [...files];
+
+  const workers = Array(CONCURRENCY)
+    .fill(null)
+    .map(async () => {
+      while (queue.length) {
+        const file = queue.shift();
+        if (!file) return;
+        await processFile(file);
+      }
+    });
+
+  await Promise.all(workers);
 
   fs.writeFileSync(OUTPUT_JSON, JSON.stringify(metadata, null, 2));
 
