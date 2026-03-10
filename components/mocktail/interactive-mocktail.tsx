@@ -4,26 +4,144 @@ import React, { useState } from "react";
 
 const dotPoints = [
   { id: 1, x: 60, y: 60, break: false, label: "if", dx: -5, dy: -15 },
-  { id: 2, x: 60, y: 160, break: false, label: "you", dx: -15, dy: 25 },
-  { id: 3, x: 120, y: 160, break: false, label: "connect", dx: 15, dy: 20 },
-  { id: 4, x: 170, y: 100, break: false, label: "the", dx: -10, dy: -15 },
-  { id: 5, x: 220, y: 150, break: false, label: "dots,", dx: 15, dy: 5 },
-  { id: 6, x: 170, y: 200, break: false, label: "you", dx: -35, dy: 5 },
-  { id: 7, x: 200, y: 270, break: false, label: "will", dx: -10, dy: 25 },
-  { id: 8, x: 270, y: 170, break: false, label: "i", dx: 15, dy: -5 },
-  { id: 9, x: 340, y: 170, break: false, label: "much", dx: -5, dy: -15 },
-  { id: 10, x: 340, y: 210, break: false, label: "how", dx: 15, dy: 5 },
-  { id: 11, x: 270, y: 210, break: false, label: "know", dx: -45, dy: 5 },
-  { id: 12, x: 240, y: 260, break: false, label: "love", dx: 15, dy: 20 },
-  { id: 13, x: 340, y: 260, break: false, label: "you", dx: 15, dy: 5 },
+  { id: 2, x: 60, y: 80, break: false },
+  { id: 3, x: 60, y: 100, break: false },
+  { id: 4, x: 60, y: 120, break: false },
+  { id: 5, x: 60, y: 140, break: false },
+  { id: 6, x: 60, y: 160, break: false, label: "you", dx: -15, dy: 25 },
+  { id: 7, x: 70, y: 160, break: false },
+  { id: 8, x: 80, y: 160, break: false },
+  { id: 9, x: 90, y: 160, break: false },
+  { id: 10, x: 140, y: 160, break: false, label: "connect", dx: 0, dy: 25 },
+  { id: 11, x: 106, y: 145, break: false },
+  { id: 12, x: 112, y: 130, break: false },
+  { id: 13, x: 120, y: 115, break: false },
+  { id: 14, x: 130, y: 102, break: false },
+  { id: 15, x: 140, y: 94, break: false },
+  { id: 16, x: 150, y: 90, break: false, label: "the", dx: -10, dy: -15 },
+  { id: 17, x: 165, y: 88, break: false },
+  { id: 18, x: 180, y: 95, break: false },
+  { id: 19, x: 195, y: 110, break: false },
+  { id: 20, x: 205, y: 125, break: false },
+  { id: 21, x: 210, y: 140, break: false, label: "dots,", dx: 15, dy: 5 },
+  { id: 22, x: 208, y: 155, break: false },
+  { id: 23, x: 200, y: 168, break: false },
+  { id: 24, x: 188, y: 180, break: false },
+  { id: 25, x: 175, y: 186, break: false },
+  { id: 26, x: 160, y: 190, break: false, label: "you", dx: -35, dy: 5 },
+  { id: 27, x: 168, y: 204, break: false },
+  { id: 28, x: 176, y: 218, break: false },
+  { id: 29, x: 184, y: 232, break: false },
+  { id: 30, x: 192, y: 246, break: false },
+  { id: 31, x: 200, y: 260, break: false, label: "will", dx: -10, dy: 25 },
+  { id: 32, x: 214, y: 242, break: false },
+  { id: 33, x: 228, y: 224, break: false },
+  { id: 34, x: 242, y: 206, break: false },
+  { id: 35, x: 256, y: 188, break: false },
+  { id: 36, x: 270, y: 170, break: false, label: "i", dx: -15, dy: -5 },
+  { id: 37, x: 285, y: 168, break: false },
+  { id: 38, x: 300, y: 166, break: false },
+  { id: 39, x: 315, y: 167, break: false },
+  { id: 40, x: 330, y: 169, break: false },
+  { id: 41, x: 340, y: 170, break: false, label: "much", dx: -5, dy: -15 },
+  { id: 42, x: 345, y: 178, break: false },
+  { id: 43, x: 348, y: 188, break: false },
+  { id: 44, x: 346, y: 198, break: false },
+  { id: 45, x: 340, y: 210, break: false, label: "how", dx: 15, dy: 5 },
+  { id: 46, x: 325, y: 213, break: false },
+  { id: 47, x: 310, y: 215, break: false },
+  { id: 48, x: 295, y: 213, break: false },
+  { id: 49, x: 280, y: 211, break: false },
+  { id: 50, x: 270, y: 210, break: false, label: "know", dx: -45, dy: 5 },
+  { id: 51, x: 260, y: 220, break: false },
+  { id: 52, x: 255, y: 235, break: false },
+  { id: 53, x: 260, y: 250, break: false },
+  { id: 54, x: 270, y: 260, break: false },
+  { id: 55, x: 280, y: 270, break: false, label: "love", dx: 15, dy: 20 },
+  { id: 56, x: 295, y: 272, break: false },
+  { id: 57, x: 310, y: 270, break: false },
+  { id: 58, x: 325, y: 268, break: false },
+  { id: 59, x: 340, y: 264, break: false },
+  { id: 60, x: 350, y: 260, break: false, label: "you", dx: 15, dy: 5 },
 ];
+
+// const dotPoints = [
+//   // L
+//   { id: 1, x: 60, y: 70, break: false, label: "if", dx: -5, dy: -15 },
+//   { id: 2, x: 60, y: 100, break: false },
+//   { id: 3, x: 60, y: 130, break: false },
+//   { id: 4, x: 60, y: 160, break: false, label: "you", dx: -35, dy: 5 },
+//   { id: 5, x: 90, y: 160, break: false },
+//   { id: 6, x: 120, y: 160, break: false, label: "connect", dx: 10, dy: 25 },
+  
+//   // O curve up
+//   { id: 7, x: 124, y: 145, break: false },
+//   { id: 8, x: 132, y: 125, break: false },
+//   { id: 9, x: 144, y: 110, break: false },
+//   { id: 10, x: 160, y: 100, break: false, label: "the", dx: -10, dy: -15 },
+  
+//   // O curve right and down
+//   { id: 11, x: 178, y: 104, break: false },
+//   { id: 12, x: 192, y: 116, break: false },
+//   { id: 13, x: 202, y: 130, break: false },
+//   { id: 14, x: 205, y: 145, break: false, label: "dots,", dx: 15, dy: 5 },
+  
+//   // O curve left and down
+//   { id: 15, x: 200, y: 165, break: false },
+//   { id: 16, x: 188, y: 180, break: false },
+//   { id: 17, x: 173, y: 190, break: false },
+//   { id: 18, x: 160, y: 195, break: false, label: "you", dx: -35, dy: 5 },
+  
+//   // V straight down-right
+//   { id: 19, x: 167, y: 210, break: false },
+//   { id: 20, x: 175, y: 228, break: false },
+//   { id: 21, x: 182, y: 244, break: false },
+//   { id: 22, x: 190, y: 260, break: false, label: "will", dx: -10, dy: 25 },
+  
+//   // V straight up-right to e crossover
+//   { id: 23, x: 202, y: 243, break: false },
+//   { id: 24, x: 214, y: 226, break: false },
+//   { id: 25, x: 227, y: 208, break: false },
+//   { id: 26, x: 240, y: 190, break: false, label: "know", dx: 10, dy: 20 },
+  
+//   // e middle horizontal
+//   { id: 27, x: 255, y: 190, break: false },
+//   { id: 28, x: 270, y: 190, break: false },
+//   { id: 29, x: 285, y: 190, break: false },
+//   { id: 30, x: 300, y: 190, break: false, label: "how", dx: 15, dy: 5 },
+  
+//   // e right side vertical
+//   { id: 31, x: 300, y: 175, break: false },
+//   { id: 32, x: 300, y: 162, break: false },
+//   { id: 33, x: 300, y: 150, break: false, label: "much", dx: 10, dy: -10 },
+  
+//   // e top side horizontal
+//   { id: 34, x: 285, y: 150, break: false },
+//   { id: 35, x: 270, y: 150, break: false },
+//   { id: 36, x: 250, y: 150, break: false, label: "i", dx: 0, dy: -15 },
+  
+//   // e diagonal down to crossover
+//   { id: 37, x: 246, y: 165, break: false },
+//   { id: 38, x: 243, y: 178, break: false },
+//   { id: 39, x: 240, y: 190, break: false }, // Invisible dot to route line perfectly through crossover
+  
+//   // e diagonal down to bottom
+//   { id: 40, x: 233, y: 207, break: false },
+//   { id: 41, x: 226, y: 223, break: false },
+//   { id: 42, x: 220, y: 240, break: false, label: "love", dx: 5, dy: 25 },
+  
+//   // e bottom horizontal
+//   { id: 43, x: 240, y: 240, break: false },
+//   { id: 44, x: 260, y: 240, break: false },
+//   { id: 45, x: 280, y: 240, break: false, label: "you", dx: 15, dy: 5 },
+// ];
 
 export default function InteractiveMocktail() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleDotClick = (id: number) => {
-    // Only allow clicking the exact next dot in the sequence
-    if (id === currentStep + 1) {
+    const nextLabeled = dotPoints.find((p) => p.id > currentStep && p.label);
+    if (nextLabeled && id === nextLabeled.id) {
       setCurrentStep(id);
     }
   };
@@ -63,8 +181,12 @@ export default function InteractiveMocktail() {
           })}
 
           {/* Draw Dots */}
+          {/* Draw Dots */}
           {dotPoints.map((point) => {
-            const isClickable = point.id === currentStep + 1;
+            if (!point.label) return null;
+
+            const nextLabeled = dotPoints.find((p) => p.id > currentStep && p.label);
+            const isClickable = nextLabeled && point.id === nextLabeled.id;
             const isConnected = currentStep >= point.id;
 
             return (
@@ -105,12 +227,12 @@ export default function InteractiveMocktail() {
       {/* Completion State */}
       {currentStep === dotPoints.length && (
         <div className="mt-8 flex flex-col items-center animate-pulse">
-          <span className="text-4xl mb-4">❤️</span>
+          <span className="text-4xl mb-4">🌻</span>
           <button
             onClick={reset}
             className="px-6 py-2 border border-gray-600 rounded-full hover:bg-white hover:text-black transition-colors"
           >
-            Play Again
+            Connect Again
           </button>
         </div>
       )}
