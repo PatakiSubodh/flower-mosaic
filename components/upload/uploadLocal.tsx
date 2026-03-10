@@ -11,11 +11,31 @@ export default function UploadLocal() {
         clickCount, btnStyle, handleUploadClick, processUploadResponse
     } = useMosaicUpload();
 
-    const buttonLabels = ["Generate Mosaic", "Are you sure?", "Really sure?", "Positive?", "Last chance!", "Confirm?"];
+    const buttonLabels = [
+        "Generate Mosaic",
+        "Are you sure?",
+        "Really sure?",
+        "Positive?",
+        "Last chance!",
+        "Confirm?"
+    ];
+
+    // images corresponding to each step
+    const cornerImages = [
+        "/sticky/finger.jpg",
+        "/sticky/camera-final-download-high-res.jpg",
+        "/sticky/gaay.jpg",
+        "/sticky/hbd.jpg",
+        "/sticky/no-click-3.jpg",
+        "/sticky/please-dabba.jpg",
+    ];
+
+    const currentImage =
+        cornerImages[Math.min(clickCount, cornerImages.length - 1)];
 
     async function handleUpload(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        
+
         if (!handleUploadClick()) return;
 
         try {
@@ -31,23 +51,48 @@ export default function UploadLocal() {
     }
 
     return (
-        <Card className="p-6 w-full max-w-lg gap-0 space-y-3">
-            <h1 className="text-xl font-bold m-0 p-0">Flower Mosaic Builder</h1>
-            
-            <form onSubmit={handleUpload} className="flex justify-left align-left flex-col gap-2">
-                <input type="file" name="image" required className="border px-1 m-0 rounded h-full" onChange={() => setShowSpy(true)} />
-                <Button type="submit" disabled={loading} style={btnStyle}>
-                    {loading ? "Generating..." : buttonLabels[Math.min(clickCount, buttonLabels.length - 1)]}
-                </Button>
-            </form>
+        <>
+            {/* top-right corner image */}
+            {!loading && clickCount > 0 && (
+                <img
+                    src={currentImage}
+                    className="fixed top-0 right-0 w-40 pointer-events-none z-50 transition-all duration-300"
+                    alt="corner spy"
+                />
+            )}
 
-            <MosaicResult 
-                loading={loading} 
-                preview={preview} 
-                progress={progress} 
-                finalUrl={finalUrl} 
-                showSpy={showSpy} 
-            />
-        </Card>
+            <Card className="p-6 w-full max-w-lg gap-0 space-y-3">
+                <h1 className="text-xl font-bold m-0 p-0">
+                    Flower Mosaic Builder
+                </h1>
+
+                <form
+                    onSubmit={handleUpload}
+                    className="flex justify-left align-left flex-col gap-2"
+                >
+                    <input
+                        type="file"
+                        name="image"
+                        required
+                        className="border px-1 m-0 rounded h-full"
+                        onChange={() => setShowSpy(true)}
+                    />
+
+                    <Button type="submit" disabled={loading} style={btnStyle}>
+                        {loading
+                            ? "Generating..."
+                            : buttonLabels[Math.min(clickCount, buttonLabels.length - 1)]}
+                    </Button>
+                </form>
+
+                <MosaicResult
+                    loading={loading}
+                    preview={preview}
+                    progress={progress}
+                    finalUrl={finalUrl}
+                    showSpy={showSpy}
+                />
+            </Card>
+        </>
     );
 }

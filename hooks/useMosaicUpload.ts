@@ -10,7 +10,7 @@ export function useMosaicUpload() {
     const [btnStyle, setBtnStyle] = useState<React.CSSProperties>({});
 
     const handleUploadClick = () => {
-        if (clickCount < 0) { // Keeping your original logic here
+        if (clickCount < 5) { 
             setClickCount((prev) => prev + 1);
             setBtnStyle({
                 position: "fixed",
