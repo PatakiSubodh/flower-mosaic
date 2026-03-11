@@ -12,65 +12,79 @@ const dotPoints = [
   { id: 7, x: 70, y: 160, break: false },
   { id: 8, x: 80, y: 160, break: false },
   { id: 9, x: 90, y: 160, break: false },
-  { id: 10, x: 140, y: 160, break: false, label: "connect", dx: 7, dy: 7 },
+ { id: 10, x: 140, y: 160, break: false, label: "connect", dx: 7, dy: 7 },
 
-{ id: 11, x: 132, y: 156, break: false },
-{ id: 12, x: 122, y: 148, break: false },
-{ id: 13, x: 116, y: 138, break: false },
-{ id: 14, x: 114, y: 126, break: false },
-{ id: 15, x: 118, y: 114, break: false },
-{ id: 16, x: 128, y: 102, break: false },
-{ id: 17, x: 145, y: 94, break: false },
+{ id: 11, x: 132, y: 154, break: false },
+{ id: 12, x: 124, y: 144, break: false },
+{ id: 13, x: 120, y: 132, break: false },
+{ id: 14, x: 122, y: 118, break: false },
+{ id: 15, x: 130, y: 106, break: false },
+{ id: 16, x: 142, y: 98, break: false },
+{ id: 17, x: 154, y: 92, break: false },
 
 { id: 18, x: 165, y: 90, break: false, label: "the", dx: -10, dy: -15 },
 
-{ id: 19, x: 178, y: 92, break: false },
-{ id: 20, x: 195, y: 100, break: false },
-{ id: 21, x: 208, y: 114, break: false },
-{ id: 22, x: 217, y: 128, break: false },
+  { id: 19, x: 178, y: 92, break: false },
+  { id: 20, x: 195, y: 100, break: false },
+  { id: 21, x: 208, y: 114, break: false },
+  { id: 22, x: 217, y: 128, break: false },
 
-{ id: 23, x: 220, y: 142, break: false, label: "dots,", dx: 15, dy: 5 },
+  { id: 23, x: 220, y: 142, break: false, label: "dots,", dx: 15, dy: 5 },
 
 { id: 24, x: 218, y: 158, break: false },
 { id: 25, x: 208, y: 172, break: false },
 { id: 26, x: 194, y: 184, break: false },
 { id: 27, x: 178, y: 190, break: false },
 
-{ id: 28, x: 160, y: 190, break: false, label: "you", dx: -35, dy: 5 },
-  { id: 29, x: 168, y: 204, break: false },
-  { id: 30, x: 176, y: 218, break: false },
-  { id: 31, x: 184, y: 232, break: false },
-  { id: 32, x: 192, y: 246, break: false },
-  { id: 33, x: 200, y: 260, break: false, label: "will", dx: -10, dy: 25 },
-  { id: 34, x: 214, y: 242, break: false },
-  { id: 35, x: 228, y: 224, break: false },
-  { id: 36, x: 242, y: 206, break: false },
-  { id: 37, x: 256, y: 188, break: false },
-  { id: 38, x: 270, y: 170, break: false, label: "know", dx: -15, dy: -5 },
-  { id: 39, x: 285, y: 168, break: false },
-  { id: 40, x: 300, y: 166, break: false },
-  { id: 41, x: 315, y: 167, break: false },
-  { id: 42, x: 330, y: 169, break: false },
-  { id: 43, x: 340, y: 170, break: false, label: "how", dx: -5, dy: -15 },
-  { id: 44, x: 345, y: 178, break: false },
-  { id: 45, x: 348, y: 188, break: false },
-  { id: 46, x: 346, y: 198, break: false },
-  { id: 47, x: 340, y: 210, break: false, label: "much", dx: 15, dy: 5 },
-  { id: 48, x: 325, y: 213, break: false },
-  { id: 49, x: 310, y: 215, break: false },
-  { id: 50, x: 295, y: 213, break: false },
-  { id: 51, x: 280, y: 211, break: false },
-  { id: 52, x: 270, y: 210, break: false, label: "i", dx: -45, dy: 5 },
-  { id: 53, x: 260, y: 220, break: false },
-  { id: 54, x: 255, y: 235, break: false },
-  { id: 55, x: 260, y: 250, break: false },
-  { id: 56, x: 270, y: 260, break: false },
-  { id: 57, x: 280, y: 270, break: false, label: "love", dx: 15, dy: 20 },
-  { id: 58, x: 295, y: 272, break: false },
-  { id: 59, x: 310, y: 270, break: false },
-  { id: 60, x: 325, y: 268, break: false },
-  { id: 61, x: 340, y: 264, break: false },
-  { id: 62, x: 350, y: 260, break: false, label: "you", dx: 15, dy: 5 },
+{ id: 28, x: 170, y: 190, break: false, label: "you", dx: -35, dy: 5 },
+
+// left arm of V
+{ id: 29, x: 176, y: 205, break: false },
+{ id: 30, x: 182, y: 220, break: false },
+{ id: 31, x: 188, y: 235, break: false },
+{ id: 32, x: 194, y: 248, break: false },
+
+{ id: 33, x: 200, y: 260, break: false, label: "will", dx: -10, dy: 25 },
+
+// bottom flat
+{ id: 34, x: 225, y: 260, break: false, label: " ", dx: -10, dy: 25 },
+
+// right arm of V (straight)
+{ id: 35, x: 232, y: 246, break: false },
+{ id: 36, x: 240, y: 232, break: false },
+{ id: 37, x: 248, y: 218, break: false },
+{ id: 38, x: 256, y: 204, break: false },
+
+{ id: 39, x: 264, y: 190, break: false, label: "know", dx: -15, dy: -5 },
+  // e middle horizontal
+{ id: 40, x: 275, y: 190, break: false },
+{ id: 41, x: 290, y: 190, break: false },
+{ id: 42, x: 305, y: 190, break: false, label: "how", dx: 15, dy: 5 },
+
+// e right side vertical
+{ id: 43, x: 305, y: 175, break: false },
+{ id: 44, x: 305, y: 162, break: false },
+{ id: 45, x: 305, y: 150, break: false, label: "much", dx: 10, dy: -10 },
+
+// e top horizontal
+{ id: 46, x: 290, y: 150, break: false },
+{ id: 47, x: 275, y: 150, break: false },
+{ id: 48, x: 255, y: 150, break: false, label: "i", dx: 0, dy: -15 },
+
+// diagonal toward crossover
+{ id: 49, x: 252, y: 165, break: false },
+{ id: 50, x: 248, y: 178, break: false },
+{ id: 51, x: 245, y: 190, break: false },
+
+// diagonal down to bottom
+{ id: 52, x: 238, y: 207, break: false },
+{ id: 53, x: 231, y: 223, break: false },
+{ id: 54, x: 225, y: 240, break: false, label: "love", dx: 5, dy: 25 },
+
+// bottom horizontal
+{ id: 55, x: 245, y: 240, break: false },
+{ id: 56, x: 265, y: 240, break: false },
+{ id: 57, x: 285, y: 240, break: false, label: "you", dx: 15, dy: 5 },
 ];
 
 // const dotPoints = [
