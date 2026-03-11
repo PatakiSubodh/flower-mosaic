@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "app/api/generate/route.ts": {
+      "excludeFiles": "{public/tiles/**,public/flowers-original/**}"
+    }
+  }
+}
