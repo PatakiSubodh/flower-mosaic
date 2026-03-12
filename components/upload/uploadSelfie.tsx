@@ -19,7 +19,7 @@ export default function UploadSelfie() {
 
     const {
         preview, finalUrl, progress, loading, showSpy, setShowSpy,
-        clickCount, btnStyle, handleUploadClick, processUploadResponse
+        clickCount, btnStyle, handleUploadClick, processUploadLocal
     } = useMosaicUpload();
 
     const buttonLabels = ["Generate Mosaic", "Are you sure?", "Really sure?", "Positive?", "Last chance!", "Confirm?"];
@@ -108,15 +108,8 @@ export default function UploadSelfie() {
             for (let i = 0; i < byteString.length; i++) {
                 ia[i] = byteString.charCodeAt(i);
             }
-            const blob = new Blob([ab], { type: "image/png" });
-            const formData = new FormData();
-            formData.append("image", blob, "selfie.png");
-
-            const res = await fetch("/api/generate", {
-                method: "POST",
-                body: formData,
-            });
-            await processUploadResponse(res);
+            const file = new File([ab], "selfie.png", { type: "image/png" });
+            await processUploadLocal(file);
         } catch (err) {
             setError("Upload error. Check your connection.");
             console.error(err);

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { generateMosaicClientSide } from "@/lib/canvasCompose";
 
 export function useMosaicUpload() {
     const [preview, setPreview] = useState<string | null>(null);
@@ -23,26 +24,24 @@ export function useMosaicUpload() {
         setBtnStyle({});
         setLoading(true);
         setShowSpy(false);
+        setProgress(0); // Reset progress on new attempt
         return true;
     };
 
-    const processUploadResponse = async (res: Response) => {
-        const data = await res.json();
-        setPreview(data.previewUrl);
-        pollStatus(data.jobId);
-    };
-
-    const pollStatus = async (jobId: string) => {
-        const interval = setInterval(async () => {
-            const res = await fetch(`/api/status?jobId=${jobId}`);
-            const data = await res.json();
-            setProgress(data.progress);
-            if (data.done) {
-                clearInterval(interval);
-                setFinalUrl(data.finalUrl);
-                setLoading(false);
-            }
-        }, 1000);
+    const processUploadLocal = async (file: File) => {
+        try {
+            // Process entirely in the browser
+            const { previewUrl, finalUrl } = await generateMosaicClientSide(file, (percent) => {
+                setProgress(Math.floor(percent));
+            });
+            
+            setPreview(previewUrl);
+            setFinalUrl(finalUrl);
+        } catch (error) {
+            console.error("Local generation failed:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return {
@@ -55,6 +54,6 @@ export function useMosaicUpload() {
         clickCount,
         btnStyle,
         handleUploadClick,
-        processUploadResponse,
+        processUploadLocal,
     };
 }

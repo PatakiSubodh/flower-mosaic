@@ -8,7 +8,7 @@ import { useMosaicUpload } from "@/hooks/useMosaicUpload";
 export default function UploadLocal() {
     const {
         preview, finalUrl, progress, loading, showSpy, setShowSpy,
-        clickCount, btnStyle, handleUploadClick, processUploadResponse
+        clickCount, btnStyle, handleUploadClick, processUploadLocal
     } = useMosaicUpload();
 
     const buttonLabels = [
@@ -20,7 +20,6 @@ export default function UploadLocal() {
         "Confirm?"
     ];
 
-    // images corresponding to each step
     const cornerImages = [
         "/sticky/finger.jpg",
         "/sticky/camera-final-download-high-res.jpg",
@@ -30,29 +29,23 @@ export default function UploadLocal() {
         "/sticky/please-dabba.jpg",
     ];
 
-    const currentImage =
-        cornerImages[Math.min(clickCount, cornerImages.length - 1)];
+    const currentImage = cornerImages[Math.min(clickCount, cornerImages.length - 1)];
 
     async function handleUpload(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (!handleUploadClick()) return;
 
-        try {
-            const formData = new FormData(e.currentTarget);
-            const res = await fetch("/api/generate", {
-                method: "POST",
-                body: formData,
-            });
-            await processUploadResponse(res);
-        } catch (error) {
-            console.error("Upload error", error);
+        const fileInput = e.currentTarget.elements.namedItem("image") as HTMLInputElement;
+        const file = fileInput.files?.[0];
+
+        if (file) {
+            await processUploadLocal(file);
         }
     }
 
     return (
         <>
-            {/* top-right corner image */}
             {!loading && clickCount > 0 && (
                 <img
                     src={currentImage}
