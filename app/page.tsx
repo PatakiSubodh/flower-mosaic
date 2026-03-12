@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Upload } from "lucide-react";
+import { Laptop, Camera, Martini } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function Home() {
           onClick={() => router.push("/upload-local")}
           className="flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-xl hover:bg-gray-200"
         >
-          <Upload size={20} />
+          <Laptop size={20} />
           Upload from Device
         </button>
 
@@ -22,7 +22,7 @@ export default function Home() {
           onClick={() => router.push("/upload-selfie")}
           className="flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-xl hover:bg-gray-200"
         >
-          <Upload size={20} />
+          <Camera size={20} />
           Take Selfie
         </button>
 
@@ -30,7 +30,7 @@ export default function Home() {
           onClick={() => router.push("/mocktail")}
           className="flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-xl hover:bg-gray-200"
         >
-          <Upload size={20} />
+          <Martini size={20} />
           Mocktail
         </button>
 
