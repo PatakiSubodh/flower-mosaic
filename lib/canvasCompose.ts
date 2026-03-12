@@ -2,7 +2,7 @@ import chroma from "chroma-js";
 import { matchGridWithKDTree } from "./matcher";
 import { LabColor, MatchResult } from "./types";
 
-const GRID_SIZE = 150;
+const GRID_SIZE = 200;
 
 // Helper to load an image into an HTMLImageElement
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -81,7 +81,15 @@ export async function generateMosaicClientSide(
   
   if (!ctx) throw new Error("Could not get 2d context");
   
-  ctx.drawImage(img, 0, 0, GRID_SIZE, GRID_SIZE);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  // Mimic Sharp's default "cover" behavior (center crop to square)
+  const minSize = Math.min(img.width, img.height);
+  const sx = (img.width - minSize) / 2;
+  const sy = (img.height - minSize) / 2;
+
+  ctx.drawImage(img, sx, sy, minSize, minSize, 0, 0, GRID_SIZE, GRID_SIZE);
   const imageData = ctx.getImageData(0, 0, GRID_SIZE, GRID_SIZE).data;
 
   // 3. Convert RGBA to LAB Color Grid
@@ -109,7 +117,7 @@ export async function generateMosaicClientSide(
   onProgress(10); 
 
   // 6. Generate Final High-Res (Takes a few seconds, reports progress)
-  const finalUrl = await composeCanvasMosaic(matchGrid, 108, (p) => {
+  const finalUrl = await composeCanvasMosaic(matchGrid, 81, (p) => {
     // Map the 0-100 progress of this function to the remaining 10-100 overall progress
     onProgress(10 + p * 0.9);
   });
