@@ -12,7 +12,7 @@ import { LabColor } from "@/lib/types";
 
 export const runtime = "nodejs";
 
-const GRID_SIZE = 160;
+const GRID_SIZE = 150;
 
 async function generateLabGrid(buffer: Buffer): Promise<LabColor[][]> {
   const { data, info } = await sharp(buffer)
