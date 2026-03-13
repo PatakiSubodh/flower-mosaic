@@ -177,7 +177,7 @@ export default function UploadSelfie() {
                             aria-label="Go back"
                             className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors w-full"
                         >
-                            Go Back
+                            Back
                         </Button>
                     )}
                 </>

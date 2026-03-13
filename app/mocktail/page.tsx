@@ -11,7 +11,7 @@ export default function Mocktail() {
         
         <button
             onClick={() => router.push("/")}
-            className="absolute top-6 left-6 text-white border px-4 py-2 rounded-lg hover:bg-white hover:text-black"
+            className="absolute top-6 left-6 text-white border px-4 py-1 rounded-md text-sm hover:bg-white hover:text-black hover:cursor-pointer transition-colors"
         >
             Back
         </button>
