@@ -2,13 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { Laptop, Camera, Martini } from "lucide-react";
+import SunflowerLoader from "@/components/loader/SunflowerLoader";
 
 export default function Home() {
   const router = useRouter();
 
   return (
     <div className="bg-black min-h-screen flex items-center justify-center p-6">
+        {/* <SunflowerLoader /> */}
       <div className="flex flex-col gap-5 text-center">
+        
         
         <button
           onClick={() => router.push("/upload-local")}
