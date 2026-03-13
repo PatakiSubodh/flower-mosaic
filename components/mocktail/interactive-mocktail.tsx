@@ -49,6 +49,7 @@ export default function InteractiveMocktail() {
   const reset = () => setCurrentStep(0);
 
   return (
+    <>
   <div className="relative w-full flex justify-center items-center gap-2">
     <div className="flex items-center justify-center w-full max-w-3xl bg-black text-white">
       <div className="relative w-full overflow-x-auto pb-6">
@@ -120,8 +121,9 @@ export default function InteractiveMocktail() {
       </div>
     </div>
 
+  </div>
     {/* Bottom Right Button */}
-    <div className="absolute bottom-0 right-0">
+    <div className="absolute bottom-5 right-5">
       {currentStep === dotPoints[dotPoints.length - 1].id && (
         <div className="flex flex-col items-center">
           <span className="text-6xl mb-0.5">🌻</span>
@@ -134,6 +136,6 @@ export default function InteractiveMocktail() {
         </div>
       )}
     </div>
-  </div>
+    </>
   );
 }
