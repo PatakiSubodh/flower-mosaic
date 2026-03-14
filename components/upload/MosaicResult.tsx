@@ -3,45 +3,71 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import PixelPig from "@/components/walk/PixelPig";
+import SunflowerLoader from "../loader/SunflowerLoader";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface MosaicResultProps {
     loading: boolean;
+    msg: string | null;
     preview: string | null;
     progress: number;
     finalUrl: string | null;
+    wallpaperUrl: string | null;
     showSpy: boolean;
 }
 
-export default function MosaicResult({ loading, preview, progress, finalUrl, showSpy }: MosaicResultProps) {
+export default function MosaicResult({ loading, msg, preview, progress, finalUrl, wallpaperUrl, showSpy }: MosaicResultProps) {
+
+    useEffect(() => {
+        if (finalUrl && wallpaperUrl) {
+
+            const download = (url: string) => {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            };
+
+            download(finalUrl);
+
+            setTimeout(() => {
+            download(wallpaperUrl);
+
+            toast.info(msg || "Downloads started 📂");
+
+            }, 7000);
+
+        }
+    }, [finalUrl, wallpaperUrl]);
+
     return (
         <>
-            {loading && !preview && <PixelPig />}
-
-            {preview && (
-                <div className="space-y-2 mt-4">
-                    <h2 className="font-semibold">Preview</h2>
-                    <img src={preview} alt="Mosaic Preview" className="w-full rounded border border-zinc-800" />
-
-                    {!finalUrl && (
-                        <div className="space-y-2 mt-4">
-                            <div className="flex justify-between text-sm">
-                                <p>Generating high resolution...</p>
-                                <p>{Math.round(progress)}%</p>
-                            </div>
-                            <Progress value={progress} className="h-2" />
-                        </div>
-                    )}
+            {preview && !finalUrl && <PixelPig />}
+            {loading && !preview && (
+                <SunflowerLoader />
+            )}
+            {preview && !finalUrl && (
+                <div className="absolute text-white font-mono top-5 right-5">
+                    <p>{Math.round(progress)}%</p>
                 </div>
             )}
+            
+            {preview && (
+                <div className="p-2 w-full max-w-100 gap-0 space-y-3 rounded-md bg-white flex justify-start flex-col -mt-24">
+                    
+                    <img
+                    src={preview}
+                    alt="Mosaic Preview"
+                    className="w-full rounded-md"
+                    />
 
-            {finalUrl && (
-                <div className="space-y-3 mt-6 pt-4 border-t border-zinc-800">
-                    <h2 className="font-semibold text-green-700">Generation Complete!</h2>
-                    <Button asChild className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                        <a href={finalUrl} download>
-                            Download High Resolution
-                        </a>
-                    </Button>
+                    {!finalUrl && (
+                        <p className="text-sm">Generating high resolution...</p>
+                    )}
+
                 </div>
             )}
 

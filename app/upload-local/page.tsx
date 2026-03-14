@@ -7,7 +7,7 @@ export default function UploadLocalPage() {
     const router = useRouter();
 
     return (
-        <div className="bg-black min-h-screen flex flex-col items-center justify-center p-6 gap-6">
+        <div className="bg-black min-h-screen flex flex-col items-center justify-center">
         
         <button
             onClick={() => router.push("/")}

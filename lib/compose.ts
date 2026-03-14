@@ -77,6 +77,7 @@ export async function composeMosaicRowByRow(
       channels: 3,
       background: { r: 255, g: 255, b: 255 },
     },
+    limitInputPixels: false,
   })
     .composite(verticalComposite)
     .png()

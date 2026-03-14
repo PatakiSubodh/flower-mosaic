@@ -130,7 +130,7 @@ export default function UploadSelfie() {
     }, []);
 
     return (
-        <Card className="p-6 w-full max-w-lg gap-0 space-y-3">
+        <Card className="p-6 w-full max-w-lg gap-0 space-y-3 rounded-md">
             <h1 className="text-xl font-bold m-0 p-0">Flower Mosaic Builder</h1>
 
             {error && <p className="text-red-500">{error}</p>}
@@ -142,7 +142,7 @@ export default function UploadSelfie() {
                         ref={videoRef}
                         autoPlay
                         playsInline
-                        className="rounded-xl w-full"
+                        className="rounded-md w-full"
                     />
 
                     {isCameraActive && (
@@ -150,14 +150,14 @@ export default function UploadSelfie() {
                             <Button
                                 onClick={takePhoto}
                                 aria-label="Take photo"
-                                className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors flex-1"
+                                className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-md transition-colors flex-1"
                             >
                                 Click
                             </Button>
                             <Button
                                 onClick={stopCamera}
                                 aria-label="Stop camera and go back"
-                                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors flex-1"
+                                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md transition-colors flex-1"
                             >
                                 Stop
                             </Button>
@@ -168,7 +168,7 @@ export default function UploadSelfie() {
                         <Button
                             onClick={() => router.push("/")}
                             aria-label="Go back"
-                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors w-full"
+                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-md transition-colors w-full"
                         >
                             Back
                         </Button>
@@ -178,12 +178,12 @@ export default function UploadSelfie() {
 
             {photo && !preview && (
                 <>
-                    <img src={photo} alt="Captured selfie" className="rounded-xl w-full shadow-lg" />
+                    <img src={photo} alt="Captured selfie" className="rounded-md w-full shadow-lg" />
                     <div className="flex gap-4 justify-center">
                         <Button
                             onClick={retakePhoto}
                             aria-label="Retake photo"
-                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors flex-1"
+                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-md transition-colors flex-1"
                         >
                             Retake
                         </Button>
@@ -192,7 +192,7 @@ export default function UploadSelfie() {
                             disabled={loading}
                             style={btnStyle}
                             aria-label="Submit photo"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors flex-1 disabled:opacity-50"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition-colors flex-1 disabled:opacity-50"
                         >
                             {loading ? "Generating..." : buttonLabels[Math.min(clickCount, buttonLabels.length - 1)]}
                         </Button>
@@ -202,6 +202,7 @@ export default function UploadSelfie() {
 
             <MosaicResult 
                 loading={loading} 
+                msg={"yeh mujhe bhej sakti ho, bas bata raha hu!"}
                 preview={preview} 
                 progress={progress} 
                 finalUrl={finalUrl} 
