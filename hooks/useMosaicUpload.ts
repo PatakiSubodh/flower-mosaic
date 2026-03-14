@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { generateMosaicClientSide } from "@/lib/canvasCompose";
 
 export function useMosaicUpload() {
     const [preview, setPreview] = useState<string | null>(null);
@@ -60,6 +59,6 @@ export function useMosaicUpload() {
         clickCount,
         btnStyle,
         handleUploadClick,
-        processUploadLocal,
+        processUploadResponse,
     };
 }

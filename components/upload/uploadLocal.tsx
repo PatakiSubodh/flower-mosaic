@@ -42,7 +42,7 @@ export default function UploadLocal() {
         const file = fileInput.files?.[0];
 
         if (file) {
-            await processUploadLocal(file);
+            await processUploadResponse(file);
         }
     }
 
