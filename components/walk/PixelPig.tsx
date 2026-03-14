@@ -46,7 +46,7 @@ function Leg({ position, offset }: { position: [number, number, number], offset:
         {/* Hoof */}
         <mesh position={[0, -0.2, 0]}>
           <boxGeometry args={[0.2, 0.1, 0.2]} />
-          <meshStandardMaterial color="#333333" />
+          <meshStandardMaterial color="#333" />
         </mesh>
       </group>
     </group>

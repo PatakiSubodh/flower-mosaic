@@ -3,45 +3,55 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import PixelPig from "@/components/walk/PixelPig";
+import SunflowerLoader from "../loader/SunflowerLoader";
 
 interface MosaicResultProps {
     loading: boolean;
+    msg: string | null;
     preview: string | null;
     progress: number;
     finalUrl: string | null;
     showSpy: boolean;
 }
 
-export default function MosaicResult({ loading, preview, progress, finalUrl, showSpy }: MosaicResultProps) {
+export default function MosaicResult({ loading, msg, preview, progress, finalUrl, showSpy }: MosaicResultProps) {
     return (
         <>
-            {loading && !preview && <PixelPig />}
-
-            {preview && (
-                <div className="space-y-2 mt-4">
-                    <h2 className="font-semibold">Preview</h2>
-                    <img src={preview} alt="Mosaic Preview" className="w-full rounded border border-zinc-800" />
-
-                    {!finalUrl && (
-                        <div className="space-y-2 mt-4">
-                            <div className="flex justify-between text-sm">
-                                <p>Generating high resolution...</p>
-                                <p>{Math.round(progress)}%</p>
-                            </div>
-                            <Progress value={progress} className="h-2" />
-                        </div>
-                    )}
+            {preview && !finalUrl && <PixelPig />}
+            {loading && !preview && (
+                <SunflowerLoader />
+            )}
+            {preview && !finalUrl && (
+                <div className="absolute text-white font-mono top-5 right-5">
+                    <p>{Math.round(progress)}%</p>
                 </div>
             )}
+            
+            {preview && (
+                <div className="p-6 w-full max-w-lg gap-0 space-y-3 rounded-md bg-white flex justify-start flex-col -mt-26">
+                    
+                    <img
+                    src={preview}
+                    alt="Mosaic Preview"
+                    className="w-full rounded-md"
+                    />
 
-            {finalUrl && (
-                <div className="space-y-3 mt-6 pt-4 border-t border-zinc-800">
-                    <h2 className="font-semibold text-green-700">Generation Complete!</h2>
-                    <Button asChild className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    {finalUrl ? (
+                    <div className="pt-2 border-t border-zinc-800 flex gap-2 items-center">
+                        <h2 className="font-semibold">{msg}</h2>
+                        <Button
+                        asChild
+                        className="bg-blue-600 hover:bg-blue-700 text-white text-[13px] h-7 px-3 py-1"
+                        >
                         <a href={finalUrl} download>
-                            Download High Resolution
+                            Download High Res
                         </a>
-                    </Button>
+                        </Button>
+                    </div>
+                    ) :
+                        <p>Generating high resolution...</p>
+                    }
+
                 </div>
             )}
 

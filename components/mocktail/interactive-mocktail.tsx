@@ -131,7 +131,7 @@ export default function InteractiveMocktail() {
             onClick={reset}
             className="px-4 py-1 rounded-md text-md text-md border border-gray-600 hover:bg-white hover:text-black text-white hover:cursor-pointer transition-colors"
           >
-            Connect Again
+            Want me to remaind you again!
           </button>
         </div>
       )}
