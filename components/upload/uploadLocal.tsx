@@ -31,18 +31,23 @@ export default function UploadLocal() {
         "/sticky/please-dabba.jpg",
     ];
 
-    const currentImage = cornerImages[Math.min(clickCount, cornerImages.length - 1)];
+    const currentImage =
+        cornerImages[Math.min(clickCount, cornerImages.length - 1)];
 
     async function handleUpload(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (!handleUploadClick()) return;
 
-        const fileInput = e.currentTarget.elements.namedItem("image") as HTMLInputElement;
-        const file = fileInput.files?.[0];
-
-        if (file) {
-            await processUploadResponse(file);
+        try {
+            const formData = new FormData(e.currentTarget);
+            const res = await fetch("/api/generate", {
+                method: "POST",
+                body: formData,
+            });
+            await processUploadResponse(res);
+        } catch (error) {
+            console.error("Upload error", error);
         }
     }
 
