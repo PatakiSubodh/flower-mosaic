@@ -59,12 +59,14 @@ export async function POST(req: NextRequest) {
     const id = randomUUID();
     const previewFilename = `preview-${id}.png`;
     const finalFilename = `final-${id}.png`;
+    const wallpaperFilename = `wallpaper-${id}.png`;
 
     const outputDir = path.join(process.cwd(), "public", "generated");
     await fs.mkdir(outputDir, { recursive: true });
 
     const previewPath = path.join(outputDir, previewFilename);
     const finalPath = path.join(outputDir, finalFilename);
+    const wallpaperPath = path.join(outputDir, wallpaperFilename);
 
     // 🔹 Generate preview (fast)
     await composeMosaicRowByRow(matchGrid, {
@@ -88,8 +90,16 @@ export async function POST(req: NextRequest) {
         },
       });
 
+      await sharp(finalPath)
+        .resize(1080, 1920, { 
+          fit: "contain",
+          background: { r: 0, g: 0, b: 0, alpha: 1 }
+        })
+        .toFile(wallpaperPath);
+
       jobs[id].done = true;
       jobs[id].finalUrl = `/generated/${finalFilename}`;
+      jobs[id].wallpaperUrl = `/generated/${wallpaperFilename}`;
     })();
 
     return NextResponse.json({

@@ -11,10 +11,11 @@ interface MosaicResultProps {
     preview: string | null;
     progress: number;
     finalUrl: string | null;
+    wallpaperUrl: string | null;
     showSpy: boolean;
 }
 
-export default function MosaicResult({ loading, msg, preview, progress, finalUrl, showSpy }: MosaicResultProps) {
+export default function MosaicResult({ loading, msg, preview, progress, finalUrl, wallpaperUrl, showSpy }: MosaicResultProps) {
     return (
         <>
             {preview && !finalUrl && <PixelPig />}
@@ -43,10 +44,20 @@ export default function MosaicResult({ loading, msg, preview, progress, finalUrl
                         asChild
                         className="bg-blue-600 hover:bg-blue-700 text-white text-[13px] h-7 px-3 py-1"
                         >
-                        <a href={finalUrl} download>
-                            Download High Res
-                        </a>
+                            <a href={finalUrl} download>
+                                Download High Res
+                            </a>
                         </Button>
+                        {wallpaperUrl && (
+                            <Button
+                            asChild
+                            className="bg-blue-600 hover:bg-blue-700 text-white text-[13px] h-7 px-3 py-1"
+                            >
+                                <a href={wallpaperUrl} download>
+                                    Download Wallpaper
+                                </a>
+                            </Button>
+                        )}
                     </div>
                     ) :
                         <p>Generating high resolution...</p>

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function UploadLocal() {
     const {
-        preview, finalUrl, progress, loading, showSpy, setShowSpy,
+        preview, finalUrl, wallpaperUrl, progress, loading, showSpy, setShowSpy,
         clickCount, btnStyle, handleUploadClick, processUploadResponse
     } = useMosaicUpload();
     const router = useRouter();
@@ -101,6 +101,7 @@ export default function UploadLocal() {
                 preview={preview}
                 progress={progress}
                 finalUrl={finalUrl}
+                wallpaperUrl={wallpaperUrl}
                 showSpy={showSpy}
             />
             

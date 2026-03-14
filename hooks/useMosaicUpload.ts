@@ -3,6 +3,7 @@ import { useState } from "react";
 export function useMosaicUpload() {
     const [preview, setPreview] = useState<string | null>(null);
     const [finalUrl, setFinalUrl] = useState<string | null>(null);
+    const [wallpaperUrl, setWallpaperUrl] = useState<string | null>(null);
     const [progress, setProgress] = useState(0);
     const [loading, setLoading] = useState(false);
     const [showSpy, setShowSpy] = useState(false);
@@ -40,6 +41,7 @@ export function useMosaicUpload() {
             if (data.done) {
                 clearInterval(interval);
                 setFinalUrl(data.finalUrl);
+                setWallpaperUrl(data.wallpaperUrl);
                 setLoading(false);
             }
         }, 1000);
@@ -48,6 +50,7 @@ export function useMosaicUpload() {
     return {
         preview,
         finalUrl,
+        wallpaperUrl,
         progress,
         loading,
         showSpy,
