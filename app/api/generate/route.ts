@@ -16,7 +16,7 @@ const GRID_SIZE = 150;
 
 async function generateLabGrid(buffer: Buffer): Promise<LabColor[][]> {
   const { data, info } = await sharp(buffer)
-    .resize(GRID_SIZE, GRID_SIZE)
+    .resize({ width: GRID_SIZE })
     .raw()
     .toBuffer({ resolveWithObject: true });
 
@@ -90,13 +90,9 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      await sharp(finalPath)
-        .resize(1080, 1920, { 
-          fit: "contain",
-          background: { r: 0, g: 0, b: 0, alpha: 1 }
-        })
+      await sharp(finalPath, { limitInputPixels: false })
+        .resize(1080, 1920, { fit: "cover" })
         .toFile(wallpaperPath);
-
       jobs[id].done = true;
       jobs[id].finalUrl = `/generated/${finalFilename}`;
       jobs[id].wallpaperUrl = `/generated/${wallpaperFilename}`;

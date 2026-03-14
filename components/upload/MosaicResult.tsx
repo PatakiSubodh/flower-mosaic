@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import PixelPig from "@/components/walk/PixelPig";
 import SunflowerLoader from "../loader/SunflowerLoader";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface MosaicResultProps {
     loading: boolean;
@@ -16,6 +18,31 @@ interface MosaicResultProps {
 }
 
 export default function MosaicResult({ loading, msg, preview, progress, finalUrl, wallpaperUrl, showSpy }: MosaicResultProps) {
+
+    useEffect(() => {
+        if (finalUrl && wallpaperUrl) {
+
+            const download = (url: string) => {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            };
+
+            download(finalUrl);
+
+            setTimeout(() => {
+            download(wallpaperUrl);
+
+            toast.info(msg || "Downloads started 📂");
+
+            }, 7000);
+
+        }
+    }, [finalUrl, wallpaperUrl]);
+
     return (
         <>
             {preview && !finalUrl && <PixelPig />}
@@ -29,7 +56,7 @@ export default function MosaicResult({ loading, msg, preview, progress, finalUrl
             )}
             
             {preview && (
-                <div className="p-6 w-full max-w-lg gap-0 space-y-3 rounded-md bg-white flex justify-start flex-col -mt-26">
+                <div className="p-2 w-full max-w-100 gap-0 space-y-3 rounded-md bg-white flex justify-start flex-col -mt-24">
                     
                     <img
                     src={preview}
@@ -37,31 +64,9 @@ export default function MosaicResult({ loading, msg, preview, progress, finalUrl
                     className="w-full rounded-md"
                     />
 
-                    {finalUrl ? (
-                    <div className="pt-2 border-t border-zinc-800 flex gap-2 items-center">
-                        <h2 className="font-semibold">{msg}</h2>
-                        <Button
-                        asChild
-                        className="bg-blue-600 hover:bg-blue-700 text-white text-[13px] h-7 px-3 py-1"
-                        >
-                            <a href={finalUrl} download>
-                                Download High Res
-                            </a>
-                        </Button>
-                        {wallpaperUrl && (
-                            <Button
-                            asChild
-                            className="bg-blue-600 hover:bg-blue-700 text-white text-[13px] h-7 px-3 py-1"
-                            >
-                                <a href={wallpaperUrl} download>
-                                    Download Wallpaper
-                                </a>
-                            </Button>
-                        )}
-                    </div>
-                    ) :
-                        <p>Generating high resolution...</p>
-                    }
+                    {!finalUrl && (
+                        <p className="text-sm">Generating high resolution...</p>
+                    )}
 
                 </div>
             )}

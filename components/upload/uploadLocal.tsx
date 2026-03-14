@@ -96,8 +96,8 @@ export default function UploadLocal() {
             )}
             <MosaicResult
                 loading={loading}
-                // msg={"yeh wallpaper rakh sakti ho"}
-                msg={"Download"}
+                msg={"Pro Tip: yeh wallpaper rakh sakti ho"}
+                // msg={"Download"}
                 preview={preview}
                 progress={progress}
                 finalUrl={finalUrl}
