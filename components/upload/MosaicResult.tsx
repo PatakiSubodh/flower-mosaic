@@ -47,7 +47,7 @@ export default function MosaicResult({ loading, msg, preview, progress, finalUrl
         <>
             {preview && !finalUrl && <PixelPig />}
             {/* {loading && !preview && ( */}
-            {(
+            {loading && !preview && (
                 <SunflowerLoader />
             )}
             {/* {preview && !finalUrl && (
