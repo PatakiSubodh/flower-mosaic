@@ -49,11 +49,11 @@ export default function MosaicResult({ loading, msg, preview, progress, finalUrl
             {loading && !preview && (
                 <SunflowerLoader />
             )}
-            {preview && !finalUrl && (
-                <div className="absolute text-white font-mono top-5 right-5">
+            {/* {preview && !finalUrl && (
+                <div className="absolute text-black font-mono top-5 right-5">
                     <p>{Math.round(progress)}%</p>
                 </div>
-            )}
+            )} */}
             
             {preview && (
                 <div className="p-2 w-full max-w-100 gap-0 space-y-3 rounded-md bg-white flex justify-start flex-col -mt-24">

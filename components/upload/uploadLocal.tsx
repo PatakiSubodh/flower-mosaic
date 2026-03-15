@@ -62,7 +62,7 @@ export default function UploadLocal() {
             )}
 
             {!preview && !finalUrl && (
-            <Card className="p-6 w-full max-w-lg gap-0 space-y-3 rounded-md">
+            <Card className="p-6 w-full max-w-lg gap-0 space-y-3 rounded-md bg-white/80 backdrop-blur-sm border-amber-200 shadow-xl shadow-amber-900/5">
                 <h1 className="text-xl font-bold m-0 p-0">
                     Flower Mosaic Builder
                 </h1>
@@ -84,7 +84,7 @@ export default function UploadLocal() {
                         disabled={loading} 
                         style={btnStyle}
                         aria-label="Submit photo"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition-colors flex-1 disabled:opacity-50"
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-md transition-all shadow-md shadow-orange-500/20 flex-1 disabled:opacity-50"
                     >
                         {loading
                             ? "Generating..."
@@ -96,8 +96,8 @@ export default function UploadLocal() {
             )}
             <MosaicResult
                 loading={loading}
-                msg={"Pro Tip: yeh wallpaper rakh sakti ho"}
-                // msg={"Download"}
+                // msg={"Pro Tip: yeh wallpaper rakh sakti ho"}
+                msg={"Download"}
                 preview={preview}
                 progress={progress}
                 finalUrl={finalUrl}
@@ -105,7 +105,7 @@ export default function UploadLocal() {
                 showSpy={showSpy}
             />
             
-            {finalUrl && (
+            {preview && (
             <div className="absolute bottom-5 right-5">
                 <div className="flex flex-col items-center w-40">
 
@@ -114,12 +114,12 @@ export default function UploadLocal() {
                 <button
                     onClick={() => finalUrl && router.push("/upload-selfie")}
                     disabled={!finalUrl}
-                    className="relative overflow-hidden px-4 py-1 rounded-md border border-gray-600 text-white transition-colors hover:bg-white hover:text-black disabled:cursor-not-allowed w-full hover:cursor-pointer"
+                    className="relative overflow-hidden px-4 py-1 rounded-md border-2 border-orange-400 text-orange-800 font-medium transition-colors hover:bg-orange-500 hover:text-white disabled:cursor-not-allowed w-full hover:cursor-pointer shadow-sm bg-white/50 backdrop-blur-sm"
                 >
                     {/* progress fill */}
                     {!finalUrl && (
                     <span
-                        className="absolute left-0 top-0 h-full bg-white/40 transition-all duration-300"
+                        className="absolute left-0 top-0 h-full bg-orange-300/50 transition-all duration-300"
                         style={{ width: `${progress}%` }}
                     />
                     )}

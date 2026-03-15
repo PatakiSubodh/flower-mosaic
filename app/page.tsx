@@ -89,21 +89,21 @@ export default function BirthdayGift() {
       <div className="absolute top-40 right-32 animate-pulse text-4xl opacity-60">🌞</div>
       <div className="absolute bottom-32 left-32 animate-[spin_10s_linear_infinite] text-3xl opacity-50">🌼</div>
 
-      <div className="text-center z-10 mb-20 mt-10">
-        <h1 className="text-5xl md:text-7xl font-extrabold text-amber-700 drop-shadow-sm tracking-tight mb-4">
+      <div className="text-center z-10 mb-10 mt-5">
+        <h1 className="text-5xl md:text-[62px] font-extrabold text-amber-700 drop-shadow-sm tracking-tight mb-4">
           Created for you, my surajmukhi!
         </h1>
         <p className="text-amber-900/80 mt-2 text-xl font-medium">Tap the box to see what's inside...</p>
-        {/* <p className="text-amber-900/80 mt-2 text-lg font-medium">Jao dekho maje karo...</p>
-        <p className="text-amber-900/80 text-sm font-medium">Ik main sundar hu...itna pighalne ki koi jarurath nai huh!</p> */}
+        {/* <p className="text-amber-900/80 mt-2 text-xl font-medium">Jao dekho maje karo...</p>
+        <p className="text-amber-900/80 text-md font-medium">Ik main sundar hu...itna pighalne ki koi jarurath nai huh!</p> */}
       </div>
 
       <div 
-        className="relative z-10 cursor-pointer mt-8"
+        className="relative z-10 cursor-pointer"
         onClick={handleBoxClick}
       >
         <motion.div 
-          className="absolute inset-0 bg-yellow-300 rounded-full blur-[60px]"
+          className="absolute inset-0 bg-yellow-300 rounded-full blur-[60px] top-5"
           animate={{
             opacity: clickCount * 0.3,
             scale: 1 + clickCount * 0.6,
@@ -114,7 +114,7 @@ export default function BirthdayGift() {
         <div className="relative w-72 h-72 flex flex-col items-center justify-end">
           
           <motion.div
-            className="absolute top-12 z-20 w-80 h-20 bg-emerald-600 rounded-xl shadow-xl flex justify-center items-center border-b-4 border-emerald-800"
+            className="absolute top-20 z-20 w-80 h-16 bg-emerald-600 rounded-xl shadow-xl flex justify-center items-center border-b-4 border-emerald-800"
             animate={{
               y: clickCount === 1 ? -25 : clickCount === 2 ? -50 : clickCount === 3 ? -400 : 0,
               rotateZ: clickCount === 1 ? -3 : clickCount === 2 ? 8 : clickCount === 3 ? 35 : 0,
@@ -124,14 +124,14 @@ export default function BirthdayGift() {
           >
             <div className="w-14 h-full bg-amber-400 shadow-inner border-x border-amber-500/50" />
             
-            <div className="absolute -top-12 flex">
-               <div className="w-20 h-14 bg-amber-400 rounded-full border-4 border-amber-500 -mr-5 rounded-br-none transform -rotate-12 shadow-lg" />
-               <div className="w-20 h-14 bg-amber-400 rounded-full border-4 border-amber-500 -ml-5 rounded-bl-none transform rotate-12 shadow-lg" />
+            <div className="absolute -top-10 flex">
+               <div className="w-16 h-10 bg-amber-400 rounded-full border-4 border-amber-500 -mr-4 rounded-br-none transform -rotate-12 shadow-lg" />
+               <div className="w-16 h-10 bg-amber-400 rounded-full border-4 border-amber-500 -ml-4 rounded-bl-none transform rotate-12 shadow-lg" />
             </div>
           </motion.div>
 
           <motion.div
-            className="relative w-72 h-56 bg-emerald-500 rounded-b-2xl shadow-2xl flex justify-center overflow-hidden border-t border-emerald-400"
+            className="relative w-72 h-44 bg-emerald-500 rounded-b-2xl shadow-2xl flex justify-center overflow-hidden border-t border-emerald-400"
             animate={{
               scale: clickCount === 3 ? 1.08 : 1,
             }}

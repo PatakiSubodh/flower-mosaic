@@ -7,7 +7,7 @@ export default function UploadSelfiePage() {
     const router = useRouter();
 
     return (
-        <div className="bg-black min-h-screen flex flex-col items-center justify-center p-6 gap-6">
+        <div className="bg-gradient-to-br from-amber-50 via-orange-100 to-yellow-100 overflow-hidden min-h-screen flex flex-col items-center justify-center p-6 gap-6">
         
         <button
             onClick={() => router.push("/")}
