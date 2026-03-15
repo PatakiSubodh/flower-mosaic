@@ -70,7 +70,8 @@ export default function BirthdayGift() {
         description: <span className="text-black">Just 1 more click! 🌿</span>,
       });
     } else if (newCount === 3) {
-      toast.success("Happy Birthday!", {
+      // toast.success("Happy Birthday!", {
+      toast.success("Welcome", {
         description: <span className="text-black">Opening your special gift...</span>,
         icon: <Sun className="text-amber-500" />,
       });

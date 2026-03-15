@@ -11,19 +11,20 @@ export function useMosaicUpload() {
     const [btnStyle, setBtnStyle] = useState<React.CSSProperties>({});
 
     const handleUploadClick = () => {
-        if (clickCount < 0) { 
+        if (clickCount < 5) { 
             setClickCount((prev) => prev + 1);
+            setShowSpy(false);
             setBtnStyle({
-                position: "fixed",
-                top: `${Math.random() * 80 + 10}vh`,
-                right: `${Math.random() * 80 + 10}vw`,
+                position: "absolute",
+                top: `${Math.random() * 80 + 10}%`,
+                right: `${Math.random() * 80 + 10}%`,
+                width: "max-content",
                 zIndex: 100,
             });
             return false;
         }
         setBtnStyle({});
         setLoading(true);
-        setShowSpy(false);
         return true;
     };
 

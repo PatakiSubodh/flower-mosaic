@@ -245,7 +245,7 @@ const [progress, setProgress] = useState(0);
 
       <Canvas camera={{ position: [0, 2, 5.6], fov: 40 }}>
         <ambientLight intensity={0.6} />
-        <directionalLight position={[50, 15, 2]} intensity={1} />
+        <directionalLight position={[10, 5, 80]} intensity={1.25} />
         <PigModel />
       </Canvas>
     </div>
